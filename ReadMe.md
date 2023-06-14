@@ -1,51 +1,132 @@
-GPGMail - No Activation
-=======================
+Free-GPGMail
+============
 
-GPGMail (part of GPGTools now GPGSuite) has been an open source free product for
-many years. Right up until the new version 3. In a surprise move the team at 
-GPGTools changed the product to require a license key and online activation.
-While they are perfectly in their rights to do so, it did catch a lot of people
-off by surprise, especially as it came as just a regular update.
+This is a liberated version of *GPG Mail*&reg;, an Apple Mail plugin sold
+with a support plan as part of the *GPG Suite*&reg; by *GPGTools*.
 
-So while they are in their rights to charge and place DRM into their product, it
-is still a GPL licensed product which requires the source code to be available.
-This repository and project uses the open source source code with the DRM removed
-so the product can be used without a license key or any online activation.
+While the seller of the commercial product has the right to charge for a
+support plan and place DRM into their product, it is still BSD and GPL
+licensed software which requires the source code to be available.
 
-A particular motivation for this project is the fact that they offer no offline
-activation mechanism which means it is not possible to use their product as is 
-anymore on non-Internet connected machines (something that is a real issue for
-some people, especially in the IT security world, something GPGTools should have
-considered). 
+This repository and project uses the open source code with the DRM code
+replaced so the product can be used without a license key, support plan or
+online activation.
 
-Rather than building the entire GPGMail Suite and installer, this project just
-concentrates on building the GPGMail mailbundle. There are currently only two
-components in the suite that have the DRM. `GPGMail_13.mailbundle` and
-`GPGMail_14.mailbundle`.
+Rather than building the entire suite and installer, this project just
+concentrates on building the "mailbundle", the plugin for Apple Mail.
 
-This repository contains a copy of the original downloads from gpgtools.org as
-as well as a source tree for the modified versions of the mail bundles. Along
-with instructions on how to build them.
+We also publish a copy of the original source packages and exercise our right,
+granted by the open source license, to redistribute the compiled suite
+without any business involved. This does not constitute any endorsement
+or promotion of our releases by the intermediate copyright holders.
 
-Finally this also contains compiled binaries of the updated mailbundles, along
-with a .DMG for easy installation. Note GPGSuite must be installed first and then
-The mailbundle binaries replaced using the .DMG.
+Depending on supported macOS versions, there are different versions of
+the plugin available:
 
-LICENSE
-=======
+| Mailbundle      | 10.13       | 10.14  | 10.15    | 11      | 12       | 13      |
+| --------------  | ----------- | ------ | -------- | --------| -------- | ------- |
+|                 | High Sierra | Mojave | Catalina | Big Sur | Monterey | Ventura |
+| Free-GPGMail 3  | x           | x      |          |         |          |         |
+| Free-GPGMail 4  | x           | x      | x        |         |          |         |
+| Free-GPGMail 5* |             | u      | u        | s       |          |         |
+| Free-GPGMail 6  |             |        |          |         | x        |         |
+| Free-GPGMail 7  |             |        |          |         |          | x       |
 
-GPGMailNoActivation
-Copyright (C) 2018-2019
+(*) While Big Sur requires Free-GPGMail 5 to be codesigned, Mojave and Catalina
+do not like the code signature of the provided mailbundles. Thus, we publish
+an unsigned and a signed version of the Free-GPGMail 5 mailbundle.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+Note that GnuPG and Libmacgpg must be installed first and then the mailbundle
+binaries can be activated. You can compile them from source or install them
+from the GPG Suite with the same "year.decimal" version as Free-GPGMail.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Build Instructions
+------------------
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Note: If you want to use pre-compiled, signed, and notarized mailbundles, you
+can download a mailbundle from the [release page](../../releases/).
+
+This build uses Xcode&reg;. Command line build tools must be installed.
+
+1. Go to the Source directory and run make for the desired Free-GPGMail version:
+
+        cd Source/
+        make GPGMail_$n
+
+   where valid values for `$n` are `3` to `6`. This will create a
+   `Free-GPGMail_$n.mailbundle` in `bundles/`. If you want to build bundles for
+   all versions, just call `make`.
+
+2. On Big Sur or later, if you want to use the mailbundle on a different machine
+   than where it has been built, you may need to codesign the mailbundle with
+   a developer key, or add a Gatekeeper rule after installation (see below):
+
+        sudo spctl --add ~/Library/Mail/Bundles/Free-GPGMail_*.mailbundle
+
+
+Installation
+------------
+
+1. Download and install Free-GPGMail:
+    - Using [Homebrew](https://brew.sh):
+      ```bash
+      brew install --cask free-gpgmail
+      ```
+
+      If you receive an error mkdir: `/Users/YOUR_USERNAME/Library/Mail/Bundles: Operation not permitted`,
+      open the Security & Privacy system preference panel, and grant "Full Disk
+      Access" to terminal. Retry the installation.
+
+    - or manually:
+        1. Download and install the GPG Suite .dmg with the same "year.decimal" version
+           from the commercial seller or from the [Free-GPGMail releases page](../../releases/).
+            - If you are asked by the installer whether you want to
+              "enable GPG Mail now", say **Not Now** and check
+              **I am not interested in GPG Mail. Don't ask me again.**
+
+        2. Build or download a Free-GPGMail mailbundle compatible with your
+           macOS version.
+
+        3. Create a folder `~/Library/Mail/Bundles/` and drag
+           `Free-GPGMail_<version>.mailbundle` into that folder.
+           (`~/Library` may be hidden in Finder, but you can enable the
+           visibility in "Show View Options" while you are in **Home**)
+
+2. Restart Mail.app, go to `Preferences -> General -> Manage Plugins...`.
+    
+    If the "Manage Plugins" button is not present in the lower left corner,
+    open a terminal and run:
+    ```bash
+    sudo defaults write “/Library/Preferences/com.apple.mail” EnableBundles 1
+    defaults write com.apple.mail EnableBundles -bool true
+    ```
+    
+    Then restart Mail.app again.
+
+   - Make sure that `GPGMailLoader_*.mailbundle`, if present, is disabled.     
+   - Enable the `Free-GPGMail_<version>.mailbundle`.
+   - **Apply and Restart Mail**.
+
+3. In Mail.app, check `Preferences -> Free-GPGMail`. If it says that you are in
+   **Trial Mode** or **Decryption Only Mode**, hit **Activate**. It will perform
+   a dummy activation routine.
+
+
+Bug Reports and User Support
+----------------------------
+
+This project is run by volunteers in the free and open source spirit. Contributions
+are welcome. Problems with building or installing Free-GPGMail should be posted
+in the GitHub issue tracker. If you need help with the program itself, consider
+buying the commercial product and make them work for their money.
+
+Trademarks
+----------
+
+*Apple*&reg; and *Xcode*&reg; are trademarks of Apple Inc.
+
+*GPG Mail*&reg;, *GPG Suite*&reg; and *GPGTools*&reg; are trademarks of GPGTools GmbH.
+
+Neither use of these terms within this Readme or within Free-GPGMail
+constitutes endorsement of Free-GPGMail by the respective holders.
+Free-GPGMail is a non-commercial software without any business involved.

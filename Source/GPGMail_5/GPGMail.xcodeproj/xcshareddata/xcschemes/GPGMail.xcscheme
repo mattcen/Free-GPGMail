@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0460"
+   LastUpgradeVersion = "1320"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "GPGMail.mailbundle"
-               BlueprintName = "GPGMail"
+               BuildableName = "Free-GPGMail.mailbundle"
+               BlueprintName = "Free-GPGMail"
                ReferencedContainer = "container:GPGMail.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -67,8 +67,6 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -86,7 +84,7 @@
       <PathRunnable
          runnableDebuggingMode = "0"
          BundleIdentifier = "com.apple.mail"
-         FilePath = "/Applications/Mail.app">
+         FilePath = "/System/Applications/Mail.app">
       </PathRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -137,7 +135,7 @@
       debugDocumentVersioning = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "/Applications/Mail.app">
+         FilePath = "/System/Applications/Mail.app">
       </PathRunnable>
    </ProfileAction>
    <AnalyzeAction

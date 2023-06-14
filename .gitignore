@@ -1,1 +1,5 @@
 *.DS_Store
+*.mailbundle
+build
+Source/bundles
+Source/GPGMail_*/Frameworks/Libmacgpg.framework/
